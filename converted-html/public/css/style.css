@@ -1,0 +1,54 @@
+body{
+	padding-top: 2em;
+}
+
+.expired{
+	-webkit-animation: expired 5s infinite ease;
+}
+
+@media screen and ( min-width : 768px ){
+	.container{
+		max-width: 768px;
+	}
+}
+
+.input-group-addon *{
+	display: inline-block;
+}
+#radio-div{
+	text-align: center;
+}
+input [type=checkbox]{
+	width: 1em;
+	height: 1em;
+}
+.task *{
+	display: inline-block;
+	margin: 0.2em;
+	vertical-align: middle;
+}
+.task button{
+	float: right;
+}
+section{
+	padding: 1em;
+}
+
+.change-task {
+	width: 67%;
+}
+
+.done{
+	text-decoration: line-through;
+}
+
+@-webkit-keyframes expired {
+	0%	{ color: black; }
+	50%	{ color: red; }
+	100%	{ color: black; }
+}
+
+.form-bottom{
+	margin-top: 4em;
+}
+
