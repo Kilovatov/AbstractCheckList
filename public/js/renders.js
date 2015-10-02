@@ -1,3 +1,7 @@
+/*
+File with renders. We implement here rendering of tabs and tasks' container
+*/
+
 var templater = function(html) {
     return function(data) {
         for (var x in data) {
@@ -8,58 +12,41 @@ var templater = function(html) {
     };
 };
 
-function renderRadio() {    
-    radioDiv.innerHTML='';
-    for (var i = 0; i < deadlines.length; i++) {
-        var label = document.createElement('label');
-        label.classList.add('radio-inline');
-        label.innerHTML = templater('<input type="radio" name="deadline" value={{ myValue }}> {{ time }}')({
-            myValue: deadlines[i],
-            time: panelNames[i]
-        });
-        radioDiv.appendChild(label);
-    }
-}
-
-function renderPanel() {
-    for (var i = 0; i < panelNames.length; i++) {
+// 
+function renderPanel(activeTabName) {
+    for (var i = 0; i < tabs.list.length; i++) {
         var li = document.createElement('li');
         li.classList.add('tab__control__item');
-        li.name=deadlines[i];        
-        li.innerHTML=templater('<a href="#">{{ time }}</a>')({
-            time: panelNames[i]
+        // li.name=deadlines[i];        
+        li.innerHTML=templater('<a href="#">{{ title }}</a>')({
+            title: tabs.list[i].name
         });
         panel.appendChild(li);
+        if (tabs.list[i].name==activeTabName){
+            li.classList.add('active');
+        }
     }
 
 }
 
 function renderList(list) {
-    checkForExpiredTasks();
-    
     toDo.innerHTML = '';
     for (var i = 0; i < list.length; i++) {
         var template = templater(
             '<section class="task">' +
-            ' <input type="checkbox" onclick="check(this)">' +
+            ' <input type="checkbox" {{checked}} onclick="check(this.parentNode)">' +
             '<p>{{ task }}</p>' +
-            '<button class="btn btn-default" onclick="del(this)">delete</button>' +
-            '<button type="button" class="btn btn-default" onclick="edt(this)">edit</button>' +
+            '<button class="btn btn-default" onclick="del(this.parentNode)">delete</button>' +
+            '<button type="button" class="btn btn-default" onclick="mv(this.parentNode)">move to</button>'+
+            '<button type="button" class="btn btn-default" onclick="edt(this,parentNode)">edit</button>' +
             '</section>');
         toDo.innerHTML += template({
-            task: list[i].texts
-        });
-
-        //implimentation for done task
-        if (list[i].done) {
-            toDo.lastChild.childNodes[2].setAttribute('class', 'done');
-            toDo.lastChild.childNodes[1].setAttribute('checked', 'true');
-            toDo.lastChild.childNodes[4].remove();
-        }
-        if (list[i].expired) {
-            toDo.lastChild.childNodes[2].setAttribute('class', 'expired');
-        }
+            task: list[i].texts,
+            checked: list[i].done? 'checked' : ''
+        });      
     }
     container.appendChild(toDo);
     save();
 }
+
+

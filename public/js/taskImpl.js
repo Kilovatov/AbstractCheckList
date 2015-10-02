@@ -1,49 +1,68 @@
-var newTask = document.getElementById('new-task');
-var addTaskBtn = document.getElementById('add-task');
-var radioChoice = document.getElementsByName('deadline');
-var deadln;
+/* 
+File for working with task parameters
+We define here task constructor
+implement creation of a task, changes in a task and a possibility to delete task
+function safePush() stands for saving data, 
+if user forgot to push "save" or "move deadline" buttons
+*/
 
-function Task(texts, deadline) {
-    this.done = false;
-    this.texts = texts;
-    this.date = new Date();
-    this.expired = false;
-    this.deadline = deadline;
+function Task(arr) {
+    var keys = Object.keys(tasks.scheme);
+    for (var i = 0; i< arr.length; i++){
+        var key = keys[i];
+        this[key] = arr[i];               
+    }
+}
+
+function createTask(){
+    var form = document.getElementById('frm1');
+    var arr = [];
+    for (var i = 0; i<form.elements.length; i++){
+        if (form.elements[i].type=='date'){
+            arr[i]= new Date(form.elements[i].value);
+        }else {
+            arr[i]= form.elements[i].value? form.elements[i].value : false; //false for done field
+        }
+    }    
+    var task = new Task(arr);
+    tasks.list.push(task);   
+    form.reset(); 
+    refresh();
 }
 
 
-addTaskBtn.onclick = function(e) {
+
+function mv(task){
     safePush();
-    e.preventDefault();
-    e.stopPropagation();
-    if (newTask.value === "") {
-        return;
-    }
-    for (var i = 0; i < radioChoice.length; i++) {
-        if (radioChoice[i].checked) {
-            var task1 = new Task(newTask.value, radioChoice[i].value);
-            list.push(task1);
-            var panels = document.querySelectorAll('.tab__control__item');
-            for (var j = 0; j < panels.length; j++) {
-                if (panels[j].name == radioChoice[i].value) {
-                    activePanel(panels[j]);
+    var text = task.childNodes[2].textContent;
+    task.innerHTML="";
+    var input = document.createElement("input");
+    var label = document.createElement("label"); 
+    label.innerHTML="'" + text + "'" + "   till";
+    task.appendChild(label);
+    input.type = 'date';
+    input.classList.add("form-control");
+    task.appendChild(input);
+    var saveButton = document.createElement("button");
+    saveButton.textContent = "move deadline";
+    saveButton.classList.add('btn-default');
+    saveButton.classList.add('btn');
+    saveButton.id = 'save';
+    task.appendChild(saveButton);
+    task.classList.add('form-inline');
+    saveButton.onclick = function() {
+        for (var i = 0; i < tasks.list.length; i++) {
+            if (text == tasks.list[i].texts) {
+                if (input.value != "") {                    
+                    tasks.list[i].deadline = new Date(input.value);                    
                 }
             }
         }
+        refresh();
     }
-    newTask.value = "";
-
-};
-
-function del(deleteButton) {
-    safePush();
-    for (var i = 0; i < list.length; i++) {
-        if (deleteButton.parentNode.childNodes[2].textContent == list[i].texts) {
-            list.splice(i, 1);
-        }
-    }
-    createList(deadln);
 }
+
+
 
 function edt(text) {
     safePush();
@@ -63,46 +82,37 @@ function edt(text) {
 
     saveButton.onclick = function() {
 
-        for (var i = 0; i < list.length; i++) {
-            if (oldValue == list[i].texts) {
+        for (var i = 0; i < tasks.list.length; i++) {
+            if (oldValue == tasks.list[i].texts) {
                 if (input.value != "") {
-                    list[i].texts = input.value;
-
+                    tasks.list[i].texts = input.value;
                 }
             }
-
         }
-        createList(deadln);
+        refresh();
     }
 };
 
 function check(box) {
     safePush();
-    for (var i = list.length - 1; i >= 0; i--) {
-        if (box.parentNode.childNodes[2].textContent == list[i].texts) {
-            list[i].done = !list[i].done;
-
+    for (var i = tasks.list.length - 1; i >= 0; i--) {
+        if (box.childNodes[2].textContent == tasks.list[i].texts) {
+            tasks.list[i].done = !tasks.list[i].done;
+            console.log(tasks.list[i].done);
+            console.log(tasks.list[i].texts);
         }
     }
-
-    createList(deadln);
+    refresh();
 }
 
-function checkForExpiredTasks() {
-    var now = new Date();
-    for (var i = 0; i < list.length; i++) {
-        var date = new Date(list[i].date);
-        if (date.getMinutes() != now.getMinutes() && now > date && !list[i].done && list[i].deadline == "today") {
-            list[i].expired = true;
-        } else {
-            date.setDate(date.getDate() + (7 - date.getDay()) % 7);
-            if (date.getDate() != now.getDate() && now > date && !list[i].done && list[i].deadline == "week") {
-                list[i].expired = true;
-            } else {
-                list[i].expired = false;
-            }
+function del(task) {
+    safePush();
+    for (var i = tasks.list.length - 1; i >= 0; i--) {
+        if (task.childNodes[2].textContent == tasks.list[i].texts) {
+            tasks.list.splice(i,1);
         }
     }
+    refresh();
 }
 
 function safePush() {

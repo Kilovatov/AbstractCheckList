@@ -6,9 +6,9 @@ body{
 	-webkit-animation: expired 5s infinite ease;
 }
 
-@media screen and ( min-width : 768px ){
+@media screen and ( min-width : 1024px ){
 	.container{
-		max-width: 768px;
+		max-width: 1024px;
 	}
 }
 
@@ -38,8 +38,12 @@ section{
 	width: 67%;
 }
 
-.done{
+.true{
 	text-decoration: line-through;
+}
+
+.undone {
+	text-decoration: none;
 }
 
 @-webkit-keyframes expired {
@@ -51,4 +55,6 @@ section{
 .form-bottom{
 	margin-top: 4em;
 }
-
+form{
+	text-align: center;
+}
