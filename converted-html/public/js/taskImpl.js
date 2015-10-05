@@ -27,14 +27,26 @@ function createTask(){
     var task = new Task(arr);
     tasks.list.push(task);   
     form.reset(); 
-    refresh();
+    renderTask(task);
+}
+
+function del(task){
+    safePush();
+    for (var i = tasks.list.length - 1; i >= 0; i--) {
+        if (task.childNodes[1].textContent == tasks.list[i].texts) {
+            tasks.list.splice(i,1);
+            task.remove();
+            save();
+            break;
+        }
+    }
 }
 
 
 
 function mv(task){
     safePush();
-    var text = task.childNodes[2].textContent;
+    var text = task.childNodes[1].textContent;
     task.innerHTML="";
     var input = document.createElement("input");
     var label = document.createElement("label"); 
@@ -54,11 +66,14 @@ function mv(task){
         for (var i = 0; i < tasks.list.length; i++) {
             if (text == tasks.list[i].texts) {
                 if (input.value != "") {                    
-                    tasks.list[i].deadline = new Date(input.value);                    
+                    tasks.list[i].deadline = new Date(input.value);
+                    save();
+                    renderList(tasks.list);
+                    refresh();     
+                    break;                                   
                 }
             }
         }
-        refresh();
     }
 }
 
@@ -67,7 +82,7 @@ function mv(task){
 function edt(text) {
     safePush();
     var tsk = text.parentNode;
-    var oldValue = tsk.childNodes[2].textContent;
+    var oldValue = tsk.childNodes[1].textContent;
     tsk.innerHTML = "";
     var input = document.createElement("input");
     input.value = oldValue;
@@ -81,38 +96,30 @@ function edt(text) {
     tsk.appendChild(saveButton);
 
     saveButton.onclick = function() {
-
         for (var i = 0; i < tasks.list.length; i++) {
             if (oldValue == tasks.list[i].texts) {
                 if (input.value != "") {
                     tasks.list[i].texts = input.value;
+                    save();
+                    renderList(tasks.list);
+                    refresh();
+                    break;
                 }
             }
         }
-        refresh();
     }
 };
 
 function check(box) {
     safePush();
     for (var i = tasks.list.length - 1; i >= 0; i--) {
-        if (box.childNodes[2].textContent == tasks.list[i].texts) {
+        if (box.childNodes[1].textContent == tasks.list[i].texts) {
             tasks.list[i].done = !tasks.list[i].done;
-            console.log(tasks.list[i].done);
-            console.log(tasks.list[i].texts);
+            save();
+            refresh();
+            break;
         }
-    }
-    refresh();
-}
-
-function del(task) {
-    safePush();
-    for (var i = tasks.list.length - 1; i >= 0; i--) {
-        if (task.childNodes[2].textContent == tasks.list[i].texts) {
-            tasks.list.splice(i,1);
-        }
-    }
-    refresh();
+    }    
 }
 
 function safePush() {

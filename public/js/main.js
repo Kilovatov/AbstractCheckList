@@ -25,7 +25,7 @@ var tasks = localStorage.getItem(keyList) ? {
     },
     list: []    
 };
-console.log(tasks);
+
 
 
 /*initial tabs, we may add new tab, using simple constructor
@@ -66,5 +66,6 @@ function createList(condition){
 }
 
 //Starting functions: rendering tabs and initiating tasks' container
+renderList(tasks.list);
 renderPanel('All');
 refresh();
