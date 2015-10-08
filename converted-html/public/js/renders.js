@@ -1,7 +1,6 @@
 /*
 File with renders. We implement here rendering of tabs and tasks' container
 */
-var bind = [];
 
 var templater = function(html) {
     return function(data) {
@@ -18,7 +17,7 @@ function renderPanel(activeTabName) {
     for (var i = 0; i < tabs.list.length; i++) {
         var li = document.createElement('li');
         li.classList.add('tab__control__item');    
-        li.innerHTML=templater('<a href="#">{{ title }}</a>')({
+        li.innerHTML=templater('<a href="#" onclick="activePanel(this.parentNode)">{{ title }}</a>')({
             title: tabs.list[i].name
         });
         panel.appendChild(li);

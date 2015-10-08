@@ -14,9 +14,9 @@ function Task(arr) {
     }
 }
 
-function createTask(){
-    var form = document.getElementById('frm1');
+function createTask(form){    
     var arr = [];
+
     for (var i = 0; i<form.elements.length; i++){
         if (form.elements[i].type=='date'){
             arr[i]= new Date(form.elements[i].value);

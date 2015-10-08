@@ -64,8 +64,3 @@ function createList(condition){
     });
     renderList(list1);
 }
-
-//Starting functions: rendering tabs and initiating tasks' container
-renderList(tasks.list);
-renderPanel('All');
-refresh();

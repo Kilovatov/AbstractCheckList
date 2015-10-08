@@ -7,18 +7,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     {{ "bootstrap.css" | asset_url | stylesheet_tag }} 
     {{ "style.css" | asset_url | stylesheet_tag }}
+    {{ "pluginStyle.css" | asset_url | stylesheet_tag }}
     
 </head>
 
 <body>
-    <div class="container">
+    <button id="trigger" class="trigger-button" type="button">It's time TO DO something</button>
+    <div class="container" id='content'>
         {% block content %}{% endblock %}
     </div>
+    <script src="public/js/plugin.js"></script>
     <script src="public/js/activePanel.js"></script>
     <script src="public/js/taskImpl.js"></script>
     <script src="public/js/conditions.js"></script>
     <script src="public/js/renders.js"></script>
     <script src="public/js/main.js"></script>
+   
    
     
 </body>
