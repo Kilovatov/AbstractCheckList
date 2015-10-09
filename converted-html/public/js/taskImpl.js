@@ -68,7 +68,7 @@ function mv(task){
                 if (input.value != "") {                    
                     tasks.list[i].deadline = new Date(input.value);
                     save();
-                    renderList(tasks.list);
+                    renderList(task.parentNode.parentNode, tasks.list);
                     refresh();     
                     break;                                   
                 }
@@ -101,7 +101,7 @@ function edt(text) {
                 if (input.value != "") {
                     tasks.list[i].texts = input.value;
                     save();
-                    renderList(tasks.list);
+                    renderList(tsk.parentNode.parentNode, tasks.list);
                     refresh();
                     break;
                 }

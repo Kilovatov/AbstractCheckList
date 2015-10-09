@@ -12,8 +12,40 @@ var templater = function(html) {
     };
 };
 
+
+
+function renderForm(place){
+    var form=document.createElement('form');
+    form.name = "create";
+    form.setAttribute('onsubmit',"createTask(this); return false;");
+    form.classList.add('form-inline');
+    for (var i = 0; i < formDefault.length; i++){
+        var div = document.createElement('div');
+        div.classList.add('form-group');
+        div.innerHTML = templater(
+        '<label>{{ label }}</label>'+
+        '<input type={{ myType }} class="form-control"' +
+        'placeholder={{myPlaceholder}} name="myName" required>')({
+            label: formDefault[i].label,
+            myType: formDefault[i].type,
+            myPlaceholder: formDefault[i].placeholder,
+            myName: formDefault[i].name
+        });
+        form.appendChild(div);
+    }
+    var button = document.createElement('button');
+    button.type = 'submit';
+    button.classList.add('btn');
+    button.classList.add('btn-default');
+    button.innerHTML='create';
+    form.appendChild(button);
+    place.appendChild(form);
+}
 // 
-function renderPanel(activeTabName) {
+function renderPanel(place, activeTabName) {
+    var panel = document.createElement('nav');
+    panel.classList.add('nav');
+    panel.classList.add('nav-tabs');
     for (var i = 0; i < tabs.list.length; i++) {
         var li = document.createElement('li');
         li.classList.add('tab__control__item');    
@@ -25,7 +57,7 @@ function renderPanel(activeTabName) {
             li.classList.add('active');
         }
     }
-
+    place.appendChild(panel);
 }
 
 function renderTask(task) {
@@ -43,12 +75,12 @@ function renderTask(task) {
     });
 }
 
-function renderList(list) {
+function renderList(place, list) {
     toDo.innerHTML = '';
     for (var i = 0; i < list.length; i++) {
         renderTask(list[i]);     
     }
-    container.appendChild(toDo);
+    place.appendChild(toDo);
     save();
 }
 

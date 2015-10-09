@@ -84,10 +84,6 @@
         this.modal.style.minWidth = this.options.minWidth + "px";
         this.modal.style.maxWidth = this.options.maxWidth + "px";
 
-        // this.form = document.createElement("form");
-        // this.panel = document.createElement("nav");
-        // this.container = document.createElement("article");
-
         // If closeButton option is true, add a close button
         if (this.options.closeButton === true) {
             this.closeButton = document.createElement("button");
@@ -150,7 +146,6 @@
 }());
 
 var myContent = document.getElementById('content');
-//our page structure
 
 
 
@@ -165,22 +160,14 @@ var triggerButton = document.getElementById('trigger');
 triggerButton.addEventListener('click', function() {
     myModal.open();
     //our page structure
-    var content = document.getElementsByClassName('scotch-content')[0];
-    for (var i = 0; i < content.childNodes.length; i++){
-      if (hasClass(content.childNodes[i],'nav-tabs')){
-        panel = content.childNodes[i];
-      }else if (hasClass(content.childNodes[i],'box')){
-        container = content.childNodes[i];
-      }else if (hasClass(content.childNodes[i],'frm1')){
-        form = content.childNodes[i];
-      }
-    }
-    //Starting functions: rendering tabs and initiating tasks' container
-    renderList(tasks.list);
-    renderPanel('All');
-    refresh();
+    var place = document.getElementsByClassName('scotch-content')[0];
+    startToDo(place);
 });
 
-function hasClass(element, cls) {
-    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+function startToDo(place){  
+    //Starting functions: rendering forms, tabs and initiating tasks' container
+    renderForm(place);
+    renderPanel(place, 'All');
+    renderList(place, tasks.list);
+    refresh();
 }

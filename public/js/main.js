@@ -1,8 +1,3 @@
-//our page structure
-var panel = document.getElementById('panel');
-var container = document.getElementById('box');
-var form = document.getElementById('frm1');
-
 //div for showing tasks
 var toDo = document.createElement('div');
 
@@ -56,6 +51,20 @@ var tabs = {scheme: {
         condition: isDoneCondition()
     }
 ]}; 
+
+var formDefault = [
+    {
+        label: '',
+        type: 'text',
+        name: 'text',
+        placeholder: 'Task'
+    },
+    {
+        label: 'till',
+        type: 'date',
+        name: 'till',
+        placeholder: new Date()       
+    }];
 
 //function for showing actual list of tasks
 function createList(condition){
