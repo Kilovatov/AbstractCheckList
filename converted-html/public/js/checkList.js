@@ -1,4 +1,4 @@
-var checkList = (function(doc) {
+var checkList = (function(my, doc) {
 
 
 
@@ -16,13 +16,8 @@ var checkList = (function(doc) {
         },
         list: []
     };
-    /*initial tabs, we may add new tab, using simple constructor
-    function Tab (name, condition){
-        this.name = name;
-        this.condition = condition;
-    }
-    and adding new Tab() to tabs.list
-    */
+    
+
     var tabs = {
         scheme: {
             name: 'string',
@@ -424,15 +419,15 @@ var checkList = (function(doc) {
         }
     };
 
-    var startToDo = function(place) {
-        //Starting functions: rendering forms, tabs and initiating tasks' container
+    my.startToDo = function(place){
         renderForm(place);       
         addFunctionality();
     }
 
-    return startToDo;
+
+    return my;
 
 
     
 
-}(document));
+}(checkList||{}, document));

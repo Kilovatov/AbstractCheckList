@@ -4,19 +4,15 @@ var myModal = new Modal({
     className: 'zoom'
 });
 
-var triggerButton = document.getElementById('trigger');
-triggerButton.addEventListener('click', function() {
-    myModal.open();
-    var place = document.getElementsByClassName('scotch-content')[0];
-    checkList(place);    
-});
+myModal.open();
+var place = document.getElementsByClassName('scotch-content')[0];
+checkList.startToDo(place);
 
-var checkList = (function(doc){
-    var startToDo = function(place) {
-        //Starting functions: rendering forms, tabs and initiating tasks' container
+var checkList = (function(my, doc) {
+    my.startToDo = function(place){
         renderForm(place);       
         addFunctionality();
     }
-    return startToDo;  
+    return my;
 
-}(document));
+}(checkList||{}, document));

@@ -164,5 +164,5 @@ triggerButton.addEventListener('click', function() {
     myModal.open();
     //our page structure
     var place = document.getElementsByClassName('scotch-content')[0];
-    checkList(place);
+    checkList.startToDo(place);
 });
