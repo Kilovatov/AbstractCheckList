@@ -1,4 +1,4 @@
-(function(doc, window) {
+var checkList = (function(doc) {
 
 
 
@@ -80,7 +80,6 @@
     function safePush() {
         if (doc.getElementById("save")) {
             doc.getElementById("save").click();
-            addFunctionality();
         }
     }
 
@@ -115,6 +114,7 @@
         //     createTask(this);
         // })
         place.appendChild(form);
+        renderPanel(place,'All');
     }
     // 
     function renderPanel(place, activeTabName) {
@@ -135,6 +135,7 @@
             }
         }
         place.appendChild(panel);
+        renderList(place, tasks.list);
     }
     
     
@@ -162,6 +163,7 @@
         }
         place.appendChild(toDo);        
         save();        
+        refresh();
     }
 
 
@@ -218,7 +220,7 @@
 
 
     function createTask(form) {
-        console.log('hi!');
+        
         var arr = [];
         for (var i = 0; i < form.elements.length; i++) {
             if (form.elements[i].type == 'date') {
@@ -364,7 +366,6 @@
         var panels = doc.getElementsByClassName('tab__control__item');
         for(var i = 0; i< panels.length; i++){
             panels[i].addEventListener('click',function(){
-                console.log(this);
                 clearTabControls('tab__control__item');
                 this.classList.add('active');
                 for (var i = 0; i < tabs.list.length; i++) {
@@ -375,8 +376,7 @@
             });
         }
 
-        var form = doc.getElementsByName('create')[0];
-        console.log(form);
+        var form = doc.getElementsByName('create')[0];        
         form.onsubmit=(function(e){
             createTask(this);
             save();            
@@ -417,19 +417,22 @@
 
     }
 
-    window.startToDo = function(place) {
-        //Starting functions: rendering forms, tabs and initiating tasks' container
-        renderForm(place);
-        renderPanel(place, 'All');
-        renderList(place, tasks.list);
-        refresh();        
-        addFunctionality();
-    }
-
-
     doc.onkeyup = function(e) {
         if (e.keyCode === 13) {
+            console.log('ENTER!');
             safePush();
         }
     };
-}(document, window));
+
+    var startToDo = function(place) {
+        //Starting functions: rendering forms, tabs and initiating tasks' container
+        renderForm(place);       
+        addFunctionality();
+    }
+
+    return startToDo;
+
+
+    
+
+}(document));

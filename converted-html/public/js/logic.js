@@ -8,16 +8,15 @@ var triggerButton = document.getElementById('trigger');
 triggerButton.addEventListener('click', function() {
     myModal.open();
     var place = document.getElementsByClassName('scotch-content')[0];
-    startToDo(place);
+    checkList(place);    
 });
 
-(function(doc,window){
-   window.startToDo = function(place) {
+var checkList = (function(doc){
+    var startToDo = function(place) {
         //Starting functions: rendering forms, tabs and initiating tasks' container
-        renderForm(place);
-        renderPanel(place, 'All');
-        renderList(place, tasks.list);
-        refresh();        
+        renderForm(place);       
         addFunctionality();
     }
-}(document, window));
+    return startToDo;  
+
+}(document));
